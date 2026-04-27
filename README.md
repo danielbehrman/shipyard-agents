@@ -118,6 +118,36 @@ Shipyard replicates the structure that makes real teams trustworthy. Each agent 
 
 ---
 
+## Changelog
+
+### v2 — System hardening based on live project feedback
+*Derived from audits across three active Shipyard projects*
+
+**What changed and why:**
+
+**Assumption tracking** — BRIEF.md now has a dedicated Assumptions section where unvalidated decisions are flagged with ⚠️. Previously, assumptions and confirmed decisions looked identical on paper — until one of them broke mid-build. The Architect is now required to resolve all ⚠️ items before Dev starts.
+
+**Architect gate hardened** — The Architect must now validate external dependencies (APIs, data sources, quota limits) before committing to an implementation plan, and must lock all stack and architecture decisions before Dev begins. In practice these were being resolved on the fly in conversation, which meant Dev was building against open questions.
+
+**QA expanded** — QA now tests all variants and permutations, not just the happy path. Data quality assumptions are also in scope — if a feature depends on an external data source, QA verifies the data actually covers the intended use case. User-visible bugs were reaching "Project Owner" that a more thorough QA pass would have caught.
+
+**Session start tightened** — The briefing now explicitly surfaces unresolved assumptions and Carry Forward items from prior phases. Answering clarifying questions is no longer treated as confirmation to start — "Project Owner" must confirm explicitly after the briefing is complete.
+
+**Phase gate completion requirements** — A phase no longer closes with a vague summary. The completion record must include a feature-by-feature pass/fail/deferred breakdown, all deferred items with severity and priority, known regressions, and a first draft of the next phase BRIEF. That last one is a blocking deliverable — phase doesn't close without it.
+
+**Carry Forward** — Deferred items from a closed phase are now first-priority in the next session briefing, not background items. High-severity bugs may not be deferred past the phase in which they are found without explicit "Project Owner" approval.
+
+**In-session decisions must be committed** — Any decision made during a session that isn't in BRIEF.md must be captured before the session ends. Decisions that live only in chat are not decisions.
+
+**BRIEF-TEMPLATE additions** — Stack table (with confirmed vs. assumption status), Assumptions block, Carry Forward table, and Completion Record section added. The template now reflects the full lifecycle of a phase, not just the pre-build spec.
+
+---
+
+### v1 — Initial release
+Core pipeline (PM → Architect → Dev → Reviewer → QA → "Project Owner"), BRIEF.md as source of truth, hard gate structure, stack defaults, session protocol.
+
+---
+
 ## Related
 
 - [Claude Code](https://claude.ai/code) — where the pipeline runs

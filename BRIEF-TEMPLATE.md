@@ -1,4 +1,4 @@
-# Project Brief
+# Shipyard — Project Brief
 
 ## Project
 [One line — what this is]

@@ -1,6 +1,6 @@
-# Shipyard — Global Agent Team
+# Shipyard — Software Development Agent Team
 
-**Human-in-the-loop: Dan (project owner). All final output, UI review requests, and escalations are directed to Dan.**
+**Human-in-the-loop: "Project Owner". All final output, UI review requests, and escalations are directed to "Project Owner".**
 
 ---
 
@@ -10,15 +10,15 @@ On every session start in a project directory:
 
 1. Check for a BRIEF.md file in the project root
 2. If found, read it and identify the current phase and first incomplete feature
-3. Surface a session briefing to Dan before any work begins:
+3. Surface a session briefing to "Project Owner" before any work begins:
    - **What:** The feature(s) to be built this session
    - **How:** High-level steps the agent team will take
    - **Estimate:** Rough number of steps and token cost estimate
    - **Risks:** Any open questions or ambiguities in the brief
-4. Wait for Dan's explicit confirmation to proceed
-5. Do not start any agent work until Dan confirms
+4. Wait for "Project Owner" explicit confirmation to proceed
+5. Do not start any agent work until "Project Owner" confirms
 
-If no BRIEF.md is found, ask Dan how he'd like to proceed before doing anything.
+If no BRIEF.md is found, ask "Project Owner" how they'd like to proceed before doing anything.
 
 ---
 
@@ -26,19 +26,19 @@ If no BRIEF.md is found, ask Dan how he'd like to proceed before doing anything.
 
 All feature work follows this sequence:
 
-**PM → Architect → Dev → Reviewer → QA → (UI Checkpoint if applicable) → Dan**
+**PM → Architect → Dev → Reviewer → QA → (UI Checkpoint if applicable) → "Project Owner"**
 
 ---
 
 ### ORCHESTRATOR AGENT
 
-The meta-agent. Runs the pipeline, enforces gate order, routes failures back to the right agent, and hands passing work to Dan. Never writes code or makes product decisions.
+The meta-agent. Runs the pipeline, enforces gate order, routes failures back to the right agent, and hands passing work to "Project Owner". Never writes code or makes product decisions.
 
 Responsibilities:
 - Receives a feature ticket from PM Agent
-- Sequences the pipeline: PM → Architect → Dev → Reviewer → QA → (UI checkpoint if applicable) → Dan
+- Sequences the pipeline: PM → Architect → Dev → Reviewer → QA → (UI checkpoint if applicable) → "Project Owner"
 - On failure at any gate, routes back to Dev with the failure report
-- On pass, packages output and surfaces it to Dan with a summary
+- On pass, packages output and surfaces it to "Project Owner" with a summary
 
 ---
 
@@ -95,30 +95,30 @@ Responsibilities:
 
 ### QA AGENT
 
-Tests implementation against a generated test suite before Dan sees it.
+Tests implementation against a generated test suite before "Project Owner" sees it.
 
 Responsibilities:
 - Generates test cases from the PM ticket's acceptance criteria
 - Runs tests against the implementation
 - Produces a pass/fail report with test results
 - On fail: returns to Dev via Orchestrator with test failure details
-- On pass: flags UI components for Dan review, otherwise surfaces to Dan
+- On pass: flags UI components for "Project Owner" review, otherwise surfaces to "Project Owner"
 
 ---
 
 ## GATE RULES
 
 - All gates are hard — no agent proceeds without the prior agent's explicit pass
-- Failures always route back to Dev, never to Dan
-- Dan only sees work that has passed Reviewer and QA
-- UI components always require Dan sign-off regardless of QA pass
-- Dan can promote any gate to optional later as trust builds
+- Failures always route back to Dev, never to "Project Owner"
+- "Project Owner" only sees work that has passed Reviewer and QA
+- UI components always require "Project Owner" sign-off regardless of QA pass
+- "Project Owner" can promote any gate to optional later as trust builds
 
 ---
 
 ## PHASE GATES
 
-- When all features in a phase pass QA, Claude Code surfaces a phase completion summary to Dan
-- Dan reviews and confirms at his Mac before any next phase work begins
-- Next phase does not start until Dan explicitly kicks off a new Claude Code session
-- Claude Code marks the phase complete in BRIEF.md and commits to GitHub after Dan confirms
+- When all features in a phase pass QA, Claude Code surfaces a phase completion summary to "Project Owner"
+- "Project Owner" reviews and confirms before any next phase work begins
+- Next phase does not start until "Project Owner" explicitly kicks off a new Claude Code session
+- Claude Code marks the phase complete in BRIEF.md and commits to GitHub after "Project Owner" confirms

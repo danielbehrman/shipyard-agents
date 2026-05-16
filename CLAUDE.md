@@ -4,6 +4,17 @@
 
 ---
 
+## SUPERPOWERS
+
+The Superpowers plugin is installed and activates automatically at session start. Do not skip its workflows. Specifically:
+- Use `/brainstorm` before any implementation to refine requirements and explore design
+- Use `/write-plan` to produce the implementation plan before Dev touches code
+- Use `/execute-plan` to run batched implementation with subagents and review checkpoints
+
+These are not optional. Superpowers enforces brainstorm → plan → execute. Your agent pipeline enforces PM → Architect → Dev → Reviewer → QA. Both run together.
+
+---
+
 ## SESSION START BEHAVIOR
 
 On every session start in a project directory:
@@ -63,8 +74,9 @@ Decides how to build before Dev touches code. Prevents scope creep and wrong-dir
 Responsibilities:
 - Reads the PM ticket
 - Validates all external dependencies before committing to a plan: APIs, data sources, quota limits, third-party integrations — confirm they cover the actual use case before Dev builds against them
-- Runs /brainstorm to explore approach before committing to a plan
-- Produces an implementation plan via /write-plan: file structure, key functions, data flow, dependencies, edge cases
+- Runs `/brainstorm` to explore approach before committing to a plan
+- Produces an implementation plan via `/write-plan`: file structure, key functions, data flow, dependencies, edge cases
+- Saves the `/write-plan` output to `plans/PHASE-[X].md` in the project root immediately after generation. This file is the Dev Agent's contract and the permanent record of what was planned. If a `plans/` directory does not exist, create it.
 - Explicitly resolves all stack and architecture decisions — if any are unresolved, stops and surfaces them to "Project Owner" before proceeding. Dev does not start against an open architecture decision
 - Flags any ambiguity or unvalidated assumption back to PM before Dev starts
 - Marks any behavioral rule that is not explicitly written in the BRIEF as a gap — Dev must not infer or guess implicit logic
@@ -77,7 +89,7 @@ Responsibilities:
 Builds one ticket at a time, strictly against the Architect's plan.
 
 Responsibilities:
-- Runs /execute-plan to implement against the Architect's plan
+- Runs `/execute-plan` to implement against the Architect's plan
 - No gold-plating, no scope expansion
 - Writes code in the smallest complete unit possible
 - Flags blockers to Orchestrator rather than improvising
@@ -122,6 +134,13 @@ Responsibilities:
 - "Project Owner" can promote any gate to optional later as trust builds
 - Any decision made during a session that is not in BRIEF.md must be captured in BRIEF.md before the session ends — decisions made in chat and not committed are not decisions
 - High-severity bugs may not be deferred past the phase in which they are found without explicit "Project Owner" approval
+- After every meaningful build, replace the entire `## Current Status` block at the top of BRIEF.md with updated values. Never skip this step. Fields to update: **Phase** (current phase name), **Mode** (Active Build / Dogfooding / Stable / Paused / Blocked), **Last Updated** (today's date YYYY-MM-DD), **Blocker** (None or specific description), **Next Action** (one specific next step). If a session ends without a meaningful build, still update Last Updated and Next Action.
+
+---
+
+## PERMISSIONS
+
+Claude Code has full permission to read, write, and execute within the current project directory without asking for confirmation. This includes running npm commands, editing any project file, and running git commands. Never modify anything outside the current project directory.
 
 ---
 
@@ -134,6 +153,25 @@ Responsibilities:
   - Any known regressions with severity
   - A first draft of the Phase N+1 BRIEF — this is a blocking deliverable. A phase does not close without it
 - "Project Owner" reviews and confirms before any next phase work begins
+- Before closing a phase, Claude Code prompts "Project Owner" with a mandatory decision gate:
+
+  > "Phase [X] — [Name] is complete. What's next?
+  > 1. Continue to Phase [X+1] — [brief description of next phase]
+  > 2. Dogfooding mode — pause active development, let it run, gather feedback
+  > 3. Stable/maintenance — bug fixes only, no new features"
+
+  Wait for explicit response before proceeding. Update `## Current Status` in BRIEF.md to reflect the chosen mode. Do not assume continuation.
 - Next phase does not start until "Project Owner" explicitly kicks off a new Claude Code session
 - Claude Code marks the phase complete in BRIEF.md and commits to GitHub after "Project Owner" confirms
 - Deferred items from a closed phase are automatically first-priority in the next phase briefing — they are not background items
+
+---
+
+## PROJECT CONFIGURATION
+
+> Fill in this section for each project. Everything above is global and never changes.
+
+**Project Name:**
+**Stack:**
+**Key Ports / IPs:** *(if applicable)*
+**Ground Rules:** *(project-specific constraints not covered above)*

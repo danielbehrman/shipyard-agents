@@ -4,7 +4,13 @@
 [One line — what this is]
 
 ## Current Phase
-[Phase name and number]
+Claude updates this block after every meaningful build session.
+
+Phase: [Phase X — Phase Name]
+Mode: [Active Build / Dogfooding / Stable / Paused / Blocked]
+Last Updated: [YYYY-MM-DD]
+Blocker: [None / description]
+Next Action: [Specific next step]
 
 ---
 
